@@ -1,0 +1,40 @@
+{
+  "name": "cuevana.v2",
+  "version": "1.0.1",
+  "description": "Cuevana.v2 is a content provider api of the latest in the world of cinema with sub in Latin Spanish, subtitled and free, in addition to providing different complementary information.",
+  "main": "./src/app.js",
+  "types": "./types/api.d.ts",
+  "scripts": {
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [
+    "cuevana3-scraper",
+    "cuevana",
+    "cuevana3",
+    "scraper",
+    "cuevana 3"
+  ],
+  "author": "FV",
+  "contributors": [
+    "FV"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.6",
+    "cloudscraper": "^4.6.0",
+    "nodemon": "^2.0.6",
+    "request": "^2.88.2",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "typescript": "^2.9.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Francis-play/cuevana.v2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Francis-play/cuevana.v2/issues"
+  },
+  "homepage": "https://github.com/Francis-play/cuevana.v2#readme"
+}
