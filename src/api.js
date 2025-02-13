@@ -1,40 +1,39 @@
 const cloudscraper = require('cloudscraper');
 const {BASE_URL, MOVIES, SERIES, GENRES, BASE_URL_EXTENSION} = require('./util/urls')
 
-const getMovies = async(type, page = '') =>{
-  const query = type === 0 ? `.json` : `.json`;
-  const res = await cloudscraper(`${BASE_URL}${MOVIES[type]}${query}` , {method: 'GET'});
+const getMovies = async (type, page = '') => {
+  const query = type === 0 ? '.json' : '.json';
+  const res = await cloudscraper(`${BASE_URL}${MOVIES[type]}${query}`, { method: 'GET' });
+
   const body = res.pageProps;
-  if (type >= 1) {
-    console.log('...');
-  }
-  body.tabLastMovies.forEach((movie) =>{
-    const $element = $(element);
+  const movies = type >= 1 ? body.movies : body.tabLastMovies; //El type 1 y 5, requiere usar a page.
+  const promises = movies.map((movie) => {
     const id = movie.TMDbId;
     const title = movie.titles.name;
     const poster = movie.images.poster;
-    const year = Date(movie.releaseDate).getFullYear();
-    const sypnosis = movie.overview;
+    const year = new Date(movie.releaseDate).getFullYear();
+    const synopsis = movie.overview;
     const rating = movie.rate.average;
     const duration = null;
     const director = null;
     const genres = movie.genres.map((genre) => genre.name).join(', ');
     const cast = movie.cast.acting.map(actor => actor.name).join(', ');
-    
-    promises.push({
+
+    return {
       id: id || null,
       title: title || null,
       poster: poster ? `${BASE_URL}${poster}` : null,
       year: year || null,
-      sypnosis: sypnosis || null,
+      synopsis: synopsis || null,
       rating: rating || null,
       duration: duration || null,
       director: director || null,
       genres: genres || null,
       cast: cast || null
-    })
-  })
-  return await Promise.all(promises);
+    };
+  });
+
+  return Promise.all(promises);
 };
 
 const getSeries = async(type) =>{
