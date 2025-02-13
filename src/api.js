@@ -4,22 +4,22 @@ const {BASE_URL, MOVIES, SERIES, GENRES, BASE_URL_EXTENSION} = require('./util/u
 const getMovies = async(type, page = '') =>{
   const query = type === 0 ? `.json` : `.json`;
   const res = await cloudscraper(`${BASE_URL}${MOVIES[type]}${query}` , {method: 'GET'});
-  const body = await res;
-  const $ = cheerio.load(body);
-  const promises = [];
-  const url = '#aa-wp > div.bd > div.TpRwCont.cont-page > main';
-  $(`${url} > ul > li`).each((index , element) =>{
+  const body = res.pageProps;
+  if (type >= 1) {
+    console.log('...');
+  }
+  body.tabLastMovies.forEach((movie) =>{
     const $element = $(element);
-    const id = 
-    const title = 
-    const poster = 
-    const year = 
-    const sypnosis = 
-    const rating = 
-    const duration = 
-    const director = 
-    const genres = 
-    const cast = 
+    const id = movie.TMDbId;
+    const title = movie.titles.name;
+    const poster = movie.images.poster;
+    const year = Date(movie.releaseDate).getFullYear();
+    const sypnosis = movie.overview;
+    const rating = movie.rate.average;
+    const duration = null;
+    const director = null;
+    const genres = movie.genres.map((genre) => genre.name).join(', ');
+    const cast = movie.cast.acting.map(actor => actor.name).join(', ');
     
     promises.push({
       id: id || null,
