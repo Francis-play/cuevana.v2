@@ -1,6 +1,7 @@
 module.exports = {
   BASE_URL: "https://www.cuevana.is/_next/data/8R0H-ZmQSoVU5r0u8suVP/es",
   MOVIES: [
+    "peliculas",
     "peliculas/page/",
     "peliculas/tendencias/dia",
     "peliculas/tendencias/semana",
@@ -12,7 +13,7 @@ module.exports = {
     "series",
     "series/page",
     "series/estrenos",
-    "series/estrenos/page,
+    "series/estrenos/page",
     "series/tendencias/dia",
     "series/tendencias/semana"
     ],
