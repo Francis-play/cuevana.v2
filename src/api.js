@@ -36,52 +36,39 @@ const getMovies = async (type, page = '') => {
   return Promise.all(promises);
 };
 
-const getSeries = async(type) =>{
-  const res = await cloudscraper(`${BASE_URL}serie`, {method: 'GET'});
-  const body = await res;
-  const $ = cheerio.load(body);
-  const promises = [];
+const getSeries = async (type, page = '') => {
+  const query = type === 0 ? '.json' : '.json';
+  const res = await cloudscraper(`${BASE_URL}${SERIES[type]}${query}`, { method: 'GET' });
 
-  $(`${SERIES[type]} > ul > li`).each((index , element) =>{
-    if (type < 4){
-      const $element = $(element);
-      const id = $element.find('div.TPost.C > a').attr('href').split(BASE_URL_EXTENSION)[1];
-      const title = $element.find('div.TPost.C > a > h2').text();
-      const poster = $element.find('div.TPost.C > a > div > figure > img').attr('data-src');
-      const year = $element.find('div.TPost.C > a > div > span.Year').text();
-      const sypnosis = $element.find('div.TPMvCn > div.Description > p:nth-child(2)').text();
-      const rating = $element.find('div.TPMvCn > p.Info > span.Vote').text();
-      const duration = $element.find('div.TPMvCn > p.Info > span.Time').text();
-      const director = $element.find('div.TPMvCn > div.Description > p.Director').text().replace('Director: ','').split(', ');
-      const genres = $element.find('div.TPMvCn > div.Description > p.Genre').text().replace('Género: ','').split(', ');
-      const cast = $element.find('div.TPMvCn > div.Description > p.Actors').text().replace('Actores: ','').split(', ');
-      
-      promises.push({
-        id: id || null,
-        title: title || null,
-        poster: poster ? `${BASE_URL}${poster}` : null,
-        year: year || null,
-        sypnosis: sypnosis || null,
-        rating: rating || null,
-        duration: duration || null,
-        director: director || null,
-        genres: genres || null,
-        cast: cast || null
-      });
-    }else{
-      const $element = $(element);
-      const id = $element.find('article.TPost.C > a').attr('href').split('.legal/')[1];
-      const episode = $element.find('article.TPost.C > a > h2.Title').text();
-      const poster = 'https://'+$element.find('article.TPost.C > a > div.Image > figure > img').attr('data-src').split('//')[1];
-      
-      promises.push({
-        id: id || null,
-        episode: episode || null,
-        poster: poster ? `${BASE_URL}${poster}` : null
-      });
-    }
-  })
-  return await Promise.all(promises);
+  const body = res.pageProps;
+  const series = type >= 1 ? body.series : body.tabLastSeries; //El type 1 y 3, requiere usar a page.
+  const promises = series.map((serie) => {
+    const id = serie.TMDbId;
+    const title = serie.titles.name;
+    const poster = serie.images.poster;
+    const year = new Date(serie.releaseDate).getFullYear();
+    const synopsis = serie.overview;
+    const rating = serie.rate.average;
+    const duration = null;
+    const director = null;
+    const genres = serie.genres.map((genre) => genre.name).join(', ');
+    const cast = serie.cast.acting.map(actor => actor.name).join(', ');
+
+    return {
+      id: id || null,
+      title: title || null,
+      poster: poster ? `${BASE_URL}${poster}` : null,
+      year: year || null,
+      synopsis: synopsis || null,
+      rating: rating || null,
+      duration: duration || null,
+      director: director || null,
+      genres: genres || null,
+      cast: cast || null
+    };
+  });
+
+  return Promise.all(promises);
 };
 
 const getDetail = async(id, episode=null) => {
