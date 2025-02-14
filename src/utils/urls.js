@@ -6,7 +6,7 @@ module.exports = {
     "peliculas/tendencias/dia",
     "peliculas/tendencias/semana",
     "peliculas/estrenos",
-    "peliculas/estrenos/page/
+    "peliculas/estrenos/page/"
   ],
 
   SERIES: [
@@ -31,7 +31,7 @@ module.exports = {
     "misterio",
     "romance",
     "terror",
-    "suspenso",
+    "suspenso"
   ],
 };
 
