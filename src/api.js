@@ -1,5 +1,5 @@
 const cloudscraper = require('cloudscraper');
-const {BASE_URL, MOVIES, SERIES, GENRES, BASE_URL_EXTENSION} = require('./util/urls')
+const {BASE_URL, MOVIES, SERIES, GENRES} = require('./utils/urls')
 
 const getMovies = async (type, page = '') => {
   const query = type === 0 ? '.json' : '.json';
