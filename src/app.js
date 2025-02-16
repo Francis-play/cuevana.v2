@@ -9,6 +9,7 @@ app.use(express.json());
 
 // Endpoint para obtener películas
 app.get('/movies', async (req, res) => {
+  console.log(`conn : ${ req.method} ${req.url}`);
   const { type, page } = req.query;  // Parámetros enviados en la query
   try {
     const movies = await getMovies(parseInt(type), page);
@@ -20,9 +21,10 @@ app.get('/movies', async (req, res) => {
 
 // Endpoint para obtener series
 app.get('/series', async (req, res) => {
-  const { type } = req.query;  // Parámetro enviado en la query
+  console.log(`conn : ${ req.method} ${req.url}`);
+  const { type, page } = req.query;  // Parámetro enviado en la query
   try {
-    const series = await getSeries(parseInt(type));
+    const series = await getSeries(parseInt(type), page);
     res.json(series);
   } catch (error) {
     res.status(500).json({ error: 'Error obteniendo series' });
