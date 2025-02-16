@@ -15,7 +15,7 @@ app.get('/movies', async (req, res) => {
     res.json(movies);
     console.log(`conn : ${ req.method} ${req.url}`);
   } catch (error) {
-    res.status(500).json({ error: 'Error obteniendo películas' });
+    //res.status(500).json({ error: 'Error obteniendo películas' });
     console.log(`conn : ${ req.method} ${req.url}`);
   }
 });
