@@ -9,13 +9,14 @@ app.use(express.json());
 
 // Endpoint para obtener películas
 app.get('/movies', async (req, res) => {
-  console.log(`conn : ${ req.method} ${req.url}`);
   const { type, page } = req.query;  // Parámetros enviados en la query
   try {
     const movies = await getMovies(parseInt(type), page);
     res.json(movies);
+    console.log(`conn : ${ req.method} ${req.url}`);
   } catch (error) {
     res.status(500).json({ error: 'Error obteniendo películas' });
+    console.log(`conn : ${ req.method} ${req.url}`);
   }
 });
 
