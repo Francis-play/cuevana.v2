@@ -13,16 +13,13 @@ app.get('/movies', async (req, res) => {
   try {
     const movies = await getMovies(parseInt(type), page);
     res.json(movies);
-    console.log(`conn : ${ req.method} ${req.url}`);
   } catch (error) {
-    //res.status(500).json({ error: 'Error obteniendo películas' });
-    console.log(`conn : ${ req.method} ${req.url}`);
+    res.status(500).json({ error: 'Error obteniendo películas' });
   }
 });
 
 // Endpoint para obtener series
 app.get('/series', async (req, res) => {
-  console.log(`conn : ${ req.method} ${req.url}`);
   const { type, page } = req.query;  // Parámetro enviado en la query
   try {
     const series = await getSeries(parseInt(type), page);
