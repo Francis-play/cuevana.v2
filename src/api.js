@@ -6,7 +6,7 @@ const getMovies = async (type, page = '') => {
   const res = await cloudscraper(`${BASE_URL}${MOVIES[type]}${query}`, { method: 'GET' });
 
   const body = res.pageProps;
-  const movies = type >= 1 ? body.movies : body.tabLastMovies; //El type 1 y 5, requiere usar a page.
+  const movies = type >= 1 ? body.tabLastMovies || body.movies; //El type 1 y 5, requiere usar a page.
   const promises = movies.map((movie) => {
     const id = movie.TMDbId;
     const title = movie.titles.name;
@@ -41,7 +41,7 @@ const getSeries = async (type, page = '') => {
   const res = await cloudscraper(`${BASE_URL}${SERIES[type]}${query}`, { method: 'GET' });
 
   const body = res.pageProps;
-  const series = type >= 1 ? body.series : body.tabLastSeries; //El type 1 y 3, requiere usar a page.
+  const series = type >= 1 ? body.series || body.tabLastSeries; //El type 1 y 3, requiere usar a page.
   const promises = series.map((serie) => {
     const id = serie.TMDbId;
     const title = serie.titles.name;
