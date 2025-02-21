@@ -1,5 +1,3 @@
-console.time('totalExecutionTime'); // Inicia el cronómetro
-
 const axios = require('axios');
 
 // Función para hacer una solicitud HTTP
@@ -112,8 +110,6 @@ async function processVideo(initialUrl) {
 }
 
 // Llamada a la función con una URL de ejemplo
-processVideo("https://player.cuevana.is/player.php?h=rxPRsRSX4IlkyS1F21W5jxY_M_ZvO7GNpWVE3HFimxPlR5mWNJICl96GkbGMkXCk");
+//processVideo("https://player.cuevana.is/player.php?h=rxPRsRSX4IlkyS1F21W5jxY_M_ZvO7GNpWVE3HFimxPlR5mWNJICl96GkbGMkXCk");
 
-console.timeEnd('totalExecutionTime'); // Detiene el cronómetro y muestra el tiempo
-
-
+module.exports = { processVideo };
