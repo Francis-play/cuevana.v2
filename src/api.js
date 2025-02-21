@@ -309,22 +309,34 @@ const getLinks = async (slug, temp, episode) => {
     //const AllVideos = item.videos?.latino?.map(cyberlocker => cyberlocker.result) || [];
 
     const allVideos = [];
-    const languages = ['latino', 'spanish', 'english', 'japanese'];
+const languages = ['latino', 'spanish', 'english', 'japanese'];
 
-    languages.forEach((language) => {
-      if (item.videos?.[language] && item.videos[language].length > 0) {
-        const videoLinks = item.videos[language].map((cyberlocker) => ({
-          cyberlocker: cyberlocker.cyberlocker,
-          result: cyberlocker.result,
-          quality: cyberlocker.quality || 'HD', // Aseguramos que siempre haya calidad
-        }));
+languages.forEach((language) => {
+  if (item.videos?.[language] && item.videos[language].length > 0) {
+    const videoLinks = item.videos[language].map((cyberlocker) => {
+      const { cyberlocker: locker, result, quality = 'HD' } = cyberlocker;
 
-        allVideos.push({
-          language: language,
-          videos: videoLinks,
-        });
+      if (locker === 'streamwish') {
+        // Si es 'streamwish', llamamos a la función processVideo con la URL
+        const result = 'host/streamwish-get';  // Pasamos la URL del video; resolver esto
+        return null; // No agregamos nada al arreglo porque lo procesamos directamente
       }
+
+      // Si no es 'streamwish', lo agregamos normalmente
+      return {
+        cyberlocker: locker,
+        result: result,
+        quality: quality,
+      };
+    }).filter(video => video !== null); // Filtramos los valores null (los que eran streamwish)
+
+    allVideos.push({
+      language: language,
+      videos: videoLinks,
     });
+  }
+});
+
 
     return {
       id: id || null,
